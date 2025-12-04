@@ -1,4 +1,4 @@
-# sLUC emission factors related to deforestation
+# sLUC emission factors related to deforestation and land occupation
 
 This repository contains the code and tables from land use change and land occupation emissions
 
@@ -6,7 +6,7 @@ This repository contains the code and tables from land use change and land occup
 
 \###################################
 
-# sLUC emission factors data structure: 
+# sLUC emission factors data structure:
 
 \###################################
 
@@ -20,26 +20,37 @@ Each subfolder has more folders inside containing the data per each crop categor
 
 
 
-Larger data files are included in a data release with the following links:
 
--key\_gadm.csv table containing the jurisdiction names to their respective codes:for countries (GID\_0), states (GID\_1), municipalities (GID\_2): https://github.com/wri/GCSC/releases/download/v1-data/key\_gadm.csv.gz
--Four csv files labeled "emission\_factors\_GAS\_ADMX\_master.csv" These are the tables that compile all commodities within a single file:
 
-&nbsp;	emission\_factors\_ADM2\_master.tar.gz: https://github.com/wri/GCSC/releases/download/v1-data/emission\_factors\_ADM2\_master.tar.gz
+\####################################################
 
- 	emission\_factors\_ADM1\_master.tar.gz: https://github.com/wri/GCSC/releases/download/v1-data/emission\_factors\_ADM1\_master.tar.gz
+# sLUC TABLE VARIABLES:
 
- 	emission\_factors\_ADM0\_master.tar.gz: https://github.com/wri/GCSC/releases/download/v1-data/emission\_factors\_ADM0\_master.tar.gz
+\####################################################
 
 
 
+Each emission factors CSV table contains the following variables:
 
 
-\###################################
 
-# TABLE VARIABLES:
+GID\_0: Country (Administrative level 0) code from GADM 4.1
+GID\_1: Administrative level 1 code from GADM 4.1 (e.g., provinces, states)
+GID\_2: Administrative level 2 code from GADM 4.1 (e.g., municipalities, counties) 
+crop\_type: SPAM\_CODE from below
+LD\_2020 through LD\_2024:  Linearly discounted emissions for reporting year 20XX in tonnes (t)
+production\_2020 through production\_2024: Annual crop production in tonnes
+EF\_2020 through EF\_2024: Emission factor for reporting year 20XX in tonnes CO2e/tonne crop
+Data for many gases: CO2e, CO2, CH4, and N2O. All are expressed in CO2e
+CO2e is the sum of the others (CO2 + CH4 + N2O).
 
-\###################################
+
+
+\######################################################
+
+# jdLUC TABLE VARIABLES:
+
+\######################################################
 
 
 
@@ -50,12 +61,47 @@ Each emission factors CSV table contains the following variables:
 GID\_0: Country (Administrative level 0) code from GADM 4.1
 GID\_1: Administrative level 1 code from GADM 4.1
 GID\_2: Administrative level 2 code from GADM 4.1  
-crop\_type: SPAM\_CODE from below
+commodity: SPAM\_CODE from below
+
+area\_\_ha: Total area of crop X in the jurisdiction. This is used to calculate production (area\_\_ha \* yield\_mt\_ha = production\_mt)
+
+yield\_mt\_ha: Yield in metric tons for crop X based of harvested area. Based on SPAM 2020V2 data
+
+production\_mt: Annual crop production in tonnes
 LD\_2020 through LD\_2024:  Linearly discounted emissions for reporting year 20XX in tonnes (t)
-production\_2020 through production\_2024: Annual crop production in tonnes
 EF\_2020 through EF\_2024: Emission factor for reporting year 20XX in tonnes CO2e/tonne crop
 Data for many gases: CO2e, CO2, CH4, and N2O. All are expressed in CO2e
 CO2e is the sum of the others (CO2 + CH4 + N2O).
+
+
+
+
+
+\##########################################################################
+
+# YIELD FACTORS TABLE VARIABLES:
+
+\##########################################################################
+
+
+
+Each emission factors CSV table contains the following variables:
+
+
+
+GID\_0: Country (Administrative level 0) code from GADM 4.1
+GID\_1: Administrative level 1 code from GADM 4.1
+GID\_2: Administrative level 2 code from GADM 4.1  
+crop: SPAM\_CODE from below
+yield\_mt: Yield in metric tons for crop X based of physical area (already corrected for multiple cropping based on SPAM crop intensity factors). Based on SPAM 2020V2 data
+
+yield\_kg: Yield in kilograms for crop X based of physical area (already corrected for multiple cropping based on SPAM crop intensity factors). Based on SPAM 2020V2 data
+
+yield\_factor\_kg: The inverse of the yield (1/yield) in kg-1
+
+
+
+
 
 
 
@@ -67,7 +113,11 @@ CO2e is the sum of the others (CO2 + CH4 + N2O).
 
 
 
-The dataset developed by Fitts et al. (2025) provides globally consistent, spatially explicit estimates of statistical land use change (sLUC) emission factors for 42 agricultural crops across multiple spatial scales—global, national (ADM0), subnational (ADM1), and local administrative units (ADM2). Emission factors quantify greenhouse gas emissions from deforestation linked to agricultural expansion over a 20-year assessment period (2001–2020), aligning with the first full time span of Global Forest Watch’s annual tree cover loss and forest carbon flux data.  Emission factors are available for reporting years 2020 through 2024 and we expect to update the dataset annually as new tree cover loss and emissions data become available. The dataset integrates several harmonized, open-source geospatial inputs: the SPAM 2020 v2.0 cropland maps (10 km resolution) for crop distribution and production; Global Forest Watch’s tree cover loss (Hansen et al. 2013, annual updates) and forest carbon flux model (Harris et al. 2021; Gibbs et al. 2025) for estimating deforestation-related emissions; Global Pasture Watch (Parente et al. 2024) for pasture extent; and drivers of forest loss (Sims et al. 2025) to isolate agriculture-driven deforestation. 
+The dataset developed by Fitts et al. (2025) provides globally consistent, spatially explicit estimates of statistical land use change (sLUC) emission factors for 42 agricultural crops across multiple spatial scales—global, national (ADM0), subnational (ADM1), and local administrative units (ADM2). Emission factors quantify greenhouse gas emissions from deforestation linked to agricultural expansion over a 20-year assessment period (2001–2020), aligning with the first full time span of Global Forest Watch’s annual tree cover loss and forest carbon flux data. Emission factors are available for reporting years 2020 through 2024 and we expect to update the dataset annually as new tree cover loss and emissions data become available. The dataset integrates several harmonized, open-source geospatial inputs: the SPAM 2020 v2.0 cropland maps (10 km resolution) for crop distribution and production; Global Forest Watch’s tree cover loss (Hansen et al. 2013, annual updates) and forest carbon flux model (Harris et al. 2021; Gibbs et al. 2025) for estimating deforestation-related emissions; Global Pasture Watch (Parente et al. 2024) for pasture extent; and drivers of forest loss (Sims et al. 2025) to isolate agriculture-driven deforestation.
+
+
+
+This dataset also includes standardized yields and yield factors (i.e., 1/yield) to be used in land occupation calculations based on data from SPAM 2020v2.
 
 
 
@@ -159,7 +209,7 @@ Scope:
 
 
 
-This dataset focuses exclusively on metrics relevant for tracking GHG emissions from deforestation, defined as land use change from forests (or other areas with at least 10 percent tree canopy density and woody vegetation greater than 5 m in height) and associated soil GHG emissions to cropland (e.g., agricultural commodity-linked deforestation). LUC emissions due to other land use conversions (e.g., conversion of natural grasslands to croplands, conversion of natural grassland to managed grassland, etc.) are not covered. Despite this limitation, deforestation is a dominant contributor to land-use change emissions, thus the methods described here should cover a major part of scope 1 and scope 3 land sector emissions. See Fitts et al. 2025 “Beyond deforestation” section for an interim solution on how to calculate the LUC emission factors beyond deforestation.
+This dataset focuses exclusively on metrics relevant for tracking GHG emissions from deforestation, defined as land use change from forests (or other areas with at least 10 percent tree canopy density and woody vegetation greater than 5 m in height) and associated soil GHG emissions to cropland (e.g., agricultural commodity-linked deforestation). LUC emissions due to other land use conversions (e.g., conversion of natural grasslands to croplands, conversion of natural grassland to managed grassland, etc.) are not covered. Despite this limitation, deforestation is a dominant contributor to land use change emissions, thus the methods described here should cover a major part of scope 1 and scope 3 land sector emissions. See Fitts et al. 2025 “Beyond deforestation” section for an interim solution on how to calculate the LUC emission factors beyond deforestation.
 
 
 
@@ -185,11 +235,11 @@ Some considerations to have when choosing the municipality-level traceability:
 
 
 
--When a municipality has very low commercial production volumes (e.g., <10 tonnes of a crop for a whole municipality), we recommend scaling up a traceability level (i.e., admin 1) and use the state/provincial-level sLUC emission factor instead. Companies can choose their own production threshold that is meaningful in their supply chain and justify their choice when reporting. 
+-When a municipality has very low commercial production volumes (e.g., <10 tonnes of a crop for a whole municipality), we recommend scaling up a traceability level (i.e., admin 1) and use the state/provincial-level sLUC emission factor instead. Companies can choose their own production threshold that is meaningful in their supply chain and justify their choice when reporting.
 
 
 
-This methodology excludes subsistence crop production from the cropland footprint in our analysis because it is unlikely to be linked to commercial commodity value chains. Therefore, some locations might see elevated emissions that get allocated to very little crop production. Another scenario when these elevated emissions might be assigned to very little amount of crop is when a municipality is a city where very little crop production occurs, but the nature of the statistical data allocates a small amount of the crop to that area. In both scenarios, we recommend scaling up to administrative level 1 emission factor.
+This methodology excludes subsistence crop production from the cropland footprint in our analysis because it is unlikely to be linked to commercial commodity value chains. Therefore, some locations might see elevated emissions that get allocated to very little commercial crop production. Another scenario when these elevated emissions might be assigned to very little amount of crop is when a municipality is a city where very little crop production occurs, but the nature of the statistical data allocates a small amount of the crop to that area. In both scenarios, we recommend scaling up to administrative level 1 sLUC emission factor.
 
 
 
